@@ -18,11 +18,12 @@ class Ball : public RectangleShape
 		//CONSTRUCTOR
 		Ball(unsigned int screenWidth, unsigned int screenHeight);
 
+		//MEMBER FUNCTION
 		//CHECK COLLISIONS
 		void leftPaddleCollision(Paddle &leftPaddle);
 		void rightPaddleCollision(Paddle &rightPaddle);
-		void courtCollision(unsigned short &scoreLeft, unsigned short &scoreRight);
-
+		void courtCollision(unsigned short &scoreLeft, unsigned short &scoreRight, Vector2f &courtSize, Vector2f &screenSize, bool &startGame);
+		
 		//MOVE BALL
 		void update();
 };
