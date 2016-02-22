@@ -3,30 +3,52 @@
 //CONSTRUCTOR
 Paddle::Paddle()
 {
-	paddleSize.x = 20.0f;
-	paddleSize.y = 100.0f;
+	paddleSize.x = PADDLESIZEX;
+	paddleSize.y = PADDLESIZEY;
 	
-	paddleSpeed = 15.0f;
+	paddleSpeed = PADDLESPEED;
+	isKeyPressed = false;
 
 	setSize(paddleSize);
-	setFillColor(Color::White);
+	setFillColor(PADDLECOLOR);
 }
 
 //MEMBER FUNCTION
-void Paddle::update(Vector2f &courtSize, Keyboard::Key up, Keyboard::Key down, Vector2f &screenSize)
+bool Paddle::isMoving() const
+{
+	return isKeyPressed;
+}
+
+void Paddle::update(Keyboard::Key up, Keyboard::Key down)
 {
 	if (Keyboard::isKeyPressed(up))
 	{
-		if (this->getPosition().y > courtSize.y)
-			this->move(0.0f, -paddleSpeed);
+		if (this->getPosition().y > COURTSIZEY)
+		{
+			this->move(0.0f, -PADDLESPEED);
+			isKeyPressed = true;
+		}
 		else
-			this->setPosition(this->getPosition().x, courtSize.y);
+		{
+			this->setPosition(this->getPosition().x, COURTSIZEY);
+			isKeyPressed = false;
+		}
 	}
 	else if (Keyboard::isKeyPressed(down))
 	{
-		if (this->getPosition().y + paddleSize.y < screenSize.y - courtSize.y)
-			this->move(0.0f, paddleSpeed);
+		if (this->getPosition().y + paddleSize.y < HEIGHT - COURTSIZEY)
+		{
+			this->move(0.0f, PADDLESPEED);
+			isKeyPressed = true;
+		}
 		else
-			this->setPosition(this->getPosition().x, screenSize.y - courtSize.y - paddleSize.y);
+		{
+			this->setPosition(this->getPosition().x, HEIGHT - COURTSIZEY - paddleSize.y);
+			isKeyPressed = false;
+		}
+	}
+	else
+	{
+		isKeyPressed = false;
 	}
 }

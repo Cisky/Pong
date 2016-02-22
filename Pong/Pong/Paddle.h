@@ -1,8 +1,6 @@
 #pragma once
 
-#include <SFML\Graphics.hpp>
-
-using namespace sf;
+#include "Utils.h"
 
 class Paddle : public RectangleShape
 {
@@ -10,12 +8,14 @@ class Paddle : public RectangleShape
 		//MEMBER
 		Vector2f paddleSize;
 		float paddleSpeed;
+		bool isKeyPressed;
 
 	public:
 		//CONSTRUCTOR
 		Paddle();
 
 		//MEMBER FUNCTION
-		//MOVE PADDLE WITH SPECIFIED KEY
-		void update(Vector2f &courtSize, Keyboard::Key up, Keyboard::Key down, Vector2f &screenSize);
+		bool isMoving() const;
+
+		void update(Keyboard::Key up, Keyboard::Key down);
 };

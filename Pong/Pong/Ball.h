@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Paddle.h"
-#include <SFML\Graphics.hpp>
-
-using namespace sf;
+#include "Utils.h"
 
 class Ball : public RectangleShape
 {
@@ -11,19 +9,18 @@ class Ball : public RectangleShape
 		//MEMBER
 		Vector2f ballSize;
 		Vector2f ballMoveVector;
+		float initSpeed;
 		float ballSpeed;
 		float ballAngle;
 
 	public:
 		//CONSTRUCTOR
-		Ball(unsigned int screenWidth, unsigned int screenHeight);
+		Ball();
 
 		//MEMBER FUNCTION
-		//CHECK COLLISIONS
 		void leftPaddleCollision(Paddle &leftPaddle);
 		void rightPaddleCollision(Paddle &rightPaddle);
-		void courtCollision(unsigned short &scoreLeft, unsigned short &scoreRight, Vector2f &courtSize, Vector2f &screenSize, bool &startGame);
+		void courtCollision(unsigned short &scoreLeft, unsigned short &scoreRight, bool &startGame);
 		
-		//MOVE BALL
 		void update();
 };
