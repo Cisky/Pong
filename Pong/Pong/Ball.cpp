@@ -17,6 +17,15 @@ Ball::Ball()
 	this->setSize(ballSize);
 	this->setFillColor(BALLCOLOR);
 	this->setPosition((WIDTH - BALLSIZEX) / 2.0f, (HEIGHT - BALLSIZEY) / 2.0f);
+
+	if (ballBorderSoundBuffer.loadFromFile(BALLBORDERSOUND))
+		ballBorderSound.setBuffer(ballBorderSoundBuffer);
+
+	if (ballPaddleSoundBuffer.loadFromFile(BALLPADDLESOUND))
+		ballPaddleSound.setBuffer(ballPaddleSoundBuffer);
+
+	if (PointSoundBuffer.loadFromFile(POINTSOUND))
+		pointSound.setBuffer(PointSoundBuffer);
 }
 
 //MEMBER FUNCTION
@@ -28,6 +37,8 @@ void Ball::leftPaddleCollision(Paddle &leftPaddle)
 		this->getPosition().y + ballSize.y >= leftPaddle.getPosition().y &&
 		this->getPosition().y <= leftPaddle.getPosition().y + PADDLESIZEY)
 	{
+		ballPaddleSound.play();
+
 		if (ballSpeed != initSpeed)
 			ballSpeed = initSpeed;
 
@@ -64,6 +75,8 @@ void Ball::rightPaddleCollision(Paddle &rightPaddle)
 		this->getPosition().y + ballSize.y >= rightPaddle.getPosition().y &&
 		this->getPosition().y <= rightPaddle.getPosition().y + PADDLESIZEY)
 	{
+		ballPaddleSound.play();
+
 		if (ballSpeed != initSpeed)
 			ballSpeed = initSpeed;
 
@@ -97,18 +110,24 @@ void Ball::courtCollision(unsigned short &scoreLeft, unsigned short &scoreRight,
 	//CHECK COLLISIONS BETWEEN BALL AND TOP-SCREEN
 	if (this->getPosition().y + ballMoveVector.y <= COURTSIZEY)
 	{
+		ballBorderSound.play();
+
 		ballAngle = -ballAngle;
 		this->setPosition(this->getPosition().x, COURTSIZEY);
 	}
 	//CHECK COLLISIONS BETWEEN BALL AND BOTTOM-SCREEN
 	else if (this->getPosition().y + ballSize.y + ballMoveVector.y >= HEIGHT - COURTSIZEY)
 	{
+		ballBorderSound.play();
+
 		ballAngle = -ballAngle;
 		this->setPosition(this->getPosition().x, HEIGHT - COURTSIZEY - ballSize.y);
 	}
 	//CHECK COLLISIONS BETWEEN BALL AND LEFT-SCREEN
 	else if (this->getPosition().x + ballSize.x <= 0.0f)
 	{
+		pointSound.play();
+
 		float ballPositionX = (WIDTH - ballSize.x) / 2.0f;
 		float ballPositionY = rand() % (int)(WIDTH - ballSize.x - COURTSIZEY) + COURTSIZEY;
 		this->setPosition(ballPositionX, ballPositionY);
@@ -124,6 +143,8 @@ void Ball::courtCollision(unsigned short &scoreLeft, unsigned short &scoreRight,
 	//CHECK COLLISIONS BETWEEN BALL AND RIGHT-SCREEN
 	else if (this->getPosition().x > WIDTH)
 	{
+		pointSound.play();
+
 		float ballPositionX = (WIDTH - ballSize.x) / 2.0f;
 		float ballPositionY = rand() % (int)(WIDTH - ballSize.x - COURTSIZEY) + COURTSIZEY;
 		this->setPosition(ballPositionX, ballPositionY);
